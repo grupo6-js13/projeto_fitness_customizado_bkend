@@ -12,7 +12,7 @@ export class DevService implements TypeOrmOptionsFactory {
         return {
             type: 'mysql',
             host: 'localhost',
-            port: 3306,
+            port: 3307,
             username: 'root',
             password: 'root',
             database: 'db_fitness',
