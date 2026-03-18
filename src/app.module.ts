@@ -3,13 +3,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsuarioModule } from './usuario/usuario.module';
 import { CategoriaModule } from './categoria/categoria.module';
 import { ExercicioModule } from './exercicio/exercicio.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: "mysql",
       host: "localHost",
-      port: 3306, // Meu MySQL está rodando na porta 3307. Favor ajustar conforme necessário
+      port: 3307, // Meu MySQL está rodando na porta 3307. Favor ajustar conforme necessário
       username: "root", // O usuário padrão do MySQL é "root". Favor ajustar conforme necessário
       password: "root", // A senha padrão do MySQL é "root". Favor ajustar conforme necessário
       database: "db_fitness", // Crie um banco de dados chamado "db_fitness" no MySQL      
@@ -20,6 +21,7 @@ import { ExercicioModule } from './exercicio/exercicio.module';
     UsuarioModule,
     CategoriaModule,
     ExercicioModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

@@ -1,15 +1,15 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ILike, LessThan, MoreThan, Repository } from 'typeorm';
+import { LessThan, MoreThan, Repository } from 'typeorm';
 import { Usuario } from '../entities/usuario.entity';
-//import { Bcrypt } from '../../auth/bcrypt/bcrypt';
+import { Bcrypt } from '../../auth/bcrypt/bcrypt';
 
 @Injectable()
 export class UsuarioService {
     constructor(
         @InjectRepository(Usuario)
         private usuarioRepository: Repository<Usuario>,
-        //private bcrypt: Bcrypt
+        private bcrypt: Bcrypt
     ) { }
 
     async findByUsuario(usuario: string): Promise<Usuario | null> {
@@ -73,7 +73,7 @@ export class UsuarioService {
         if (buscaUsuario)
             throw new HttpException("O Usuario já existe!", HttpStatus.BAD_REQUEST);
 
-        //usuario.senha = await this.bcrypt.criptografarSenha(usuario.senha)
+        usuario.senha = await this.bcrypt.criptografarSenha(usuario.senha)
 
         if (usuario.foto == null || usuario.foto == undefined){
             usuario.foto = "Nenhuma imagem anexada."
@@ -93,7 +93,7 @@ export class UsuarioService {
         if (buscaUsuario && buscaUsuario.id !== usuario.id)
             throw new HttpException('Usuário (e-mail) já Cadastrado!', HttpStatus.BAD_REQUEST);
 
-        //usuario.senha = await this.bcrypt.criptografarSenha(usuario.senha)
+        usuario.senha = await this.bcrypt.criptografarSenha(usuario.senha)
 
         if (usuario.foto == null || usuario.foto == undefined){
             usuario.foto = "Nenhuma imagem anexada."
