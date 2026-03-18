@@ -20,14 +20,6 @@ export class UsuarioController{
 
     @ApiBearerAuth()
     @UseGuards(JwtAuthGuard)
-    @Get('/usuario/:usuario')
-    @HttpCode(HttpStatus.OK)
-    async findAllByUsuario(@Param('usuario') usuario: string): Promise<Usuario| null>{ 
-        return this.usuarioService.findByUsuario(usuario);
-    }
-
-    @ApiBearerAuth()
-    @UseGuards(JwtAuthGuard)
     @Get('/imc/maior/:imc')
     @HttpCode(HttpStatus.OK)
     async findByIMCMaiorQue(@Param('imc', ParseFloatPipe) imc: number): Promise<Usuario[]> {
