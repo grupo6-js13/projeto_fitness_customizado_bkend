@@ -12,17 +12,12 @@ export class UsuarioService {
         //private bcrypt: Bcrypt
     ) { }
 
-    async findByUsuario(usuario: string): Promise<Usuario> {
-        const usuarioEncontrado = await this.usuarioRepository.findOne({
+    async findByUsuario(usuario: string): Promise<Usuario | null> {
+        return await this.usuarioRepository.findOne({
             where: {
-                usuario: ILike(`%${usuario}%`)
+                usuario: usuario
             }
-        });
-
-        if (!usuarioEncontrado)
-            throw new HttpException('Usuario não encontrado!', HttpStatus.NOT_FOUND);
-
-        return usuarioEncontrado;
+        })
     }
 
     async findAll(): Promise<Usuario[]> {
