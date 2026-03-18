@@ -1,0 +1,33 @@
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  
+  process.env.TZ = '-03:00';
+
+  app.useGlobalPipes(new ValidationPipe());
+
+  app.enableCors();
+
+  // Configuração do Swagger
+  const config = new DocumentBuilder()
+    .setTitle('API Fitness Personalizado')
+    .setDescription('Documentação da API de Fitness Personalizado')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('/swagger', app, document);
+
+  // Redirecionar a raiz para o Swagger
+  app.getHttpAdapter().get('/', (req, res) => {
+    res.redirect('/swagger');
+  });
+
+  await app.listen(process.env.PORT ?? 4000);
+}
+bootstrap();
