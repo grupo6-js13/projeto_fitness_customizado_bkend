@@ -1,6 +1,7 @@
 import { Transform, TransformFnParams } from 'class-transformer';
 import { IsNotEmpty, IsOptional, Length } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Exercicio } from '../../exercicio/entities/exercicio.entity';
 
 @Entity({ name: 'tb_categorias' })
 export class Categoria {
@@ -24,10 +25,16 @@ export class Categoria {
   descricao: string;
 
   @IsOptional()
-  @Transform(({ value }: TransformFnParams) => (value as string | null)?.trim())
-  @Length(3, 1000, {
-    message: 'O Link do Icone da Categoria deve ter entre 3 a 1000 caracteres',
+  @Transform(({ value }: TransformFnParams) => {
+    const trimmed = (value as string | null)?.trim();
+    return trimmed === '' ? null : trimmed;
+  })
+  @Length(1, 1000, {
+    message: 'O Link do Icone da Categoria deve ter entre 1 a 1000 caracteres',
   })
   @Column({ length: 1000, nullable: true })
   icone: string;
+
+  @OneToMany(() => Exercicio, (exercicio) => exercicio.categoria)
+  exercicios: Exercicio[] // Array de retorno
 }

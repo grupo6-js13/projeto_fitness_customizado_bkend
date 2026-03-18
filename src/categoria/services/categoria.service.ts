@@ -7,11 +7,15 @@ import { ILike, Repository, DeleteResult } from 'typeorm';
 export class CategoriaService {
   constructor(
     @InjectRepository(Categoria)
-    private categoriaRepository: Repository<Categoria>,
+    private categoriaRepository: Repository<Categoria>    
   ) {}
 
   async findAll(): Promise<Categoria[]> {
-    return this.categoriaRepository.find();
+    return this.categoriaRepository.find({
+      relations: {
+        exercicios: true,
+      }
+    });
   }
 
   async findById(id: number): Promise<Categoria> {
@@ -19,6 +23,9 @@ export class CategoriaService {
       where: {
         id,
       },
+      relations: {
+        exercicios: true,
+      }
     });
 
     if (!categoria) {
@@ -36,6 +43,9 @@ export class CategoriaService {
       where: {
         nome: ILike(`%${nome}%`),
       },
+      relations: {
+        exercicios: true,
+      }
     });
   }
   async create(categoria: Categoria): Promise<Categoria> {

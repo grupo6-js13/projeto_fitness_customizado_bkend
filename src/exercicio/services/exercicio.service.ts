@@ -1,3 +1,4 @@
+import { CategoriaService } from './../../categoria/services/categoria.service';
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Exercicio } from "../entities/exercicio.entity";
@@ -10,6 +11,7 @@ export class ExercicioService {
     constructor(
         @InjectRepository(Exercicio)
         private exercicioRepository: Repository<Exercicio>,
+        private readonly categoriaService: CategoriaService
     ) { }
 
     async findAll(): Promise<Exercicio[]> {
@@ -17,6 +19,9 @@ export class ExercicioService {
         // SELECT * FROM tb_exercicios
 
         return this.exercicioRepository.find({
+            relations: {
+                categoria: true,
+            },
             order: {
                 nome: "ASC"
             }
@@ -30,7 +35,10 @@ export class ExercicioService {
         const exercicio = await this.exercicioRepository.findOne({
             where: {
                 id,
-            }
+            },
+            relations: {
+                categoria: true,
+            },
         })
         if (!exercicio) {
             throw new HttpException("Exercicio não encontrado", HttpStatus.NOT_FOUND)
@@ -46,6 +54,9 @@ export class ExercicioService {
         return this.exercicioRepository.find({
             where: {
                 nome: ILike(`%${nome}%`),
+            },
+            relations: {
+                categoria: true,
             },
             order: {
                 nome: "ASC"
@@ -63,6 +74,9 @@ export class ExercicioService {
             where: {
                 repeticao: MoreThanOrEqual(repeticao),
             },
+            relations: {
+                categoria: true,
+            },
             order: {
                 repeticao: "ASC", // Ordena em ordem crescente de repeticoes
             }
@@ -79,6 +93,9 @@ export class ExercicioService {
             where: {
                 repeticao: LessThanOrEqual(repeticao),
             },
+            relations: {
+                categoria: true,
+            },
             order: {
                 repeticao: "DESC", // Ordena em ordem decrescente de repeticoes
             }
@@ -88,7 +105,13 @@ export class ExercicioService {
 
     async create(exercicio: Exercicio): Promise<Exercicio> {
 
-        // INSERT INTO tb_exercicios (nome, imagem, serie, repeticao, tempoEstimado) VALUES (?, ?, ?, ?, ?)
+        // Checa se foi passado id de Categoria e se a Categoria do Exercicio existe
+
+        if (exercicio.categoria?.id) {
+            await this.categoriaService.findById(exercicio.categoria.id);
+        }
+
+        // INSERT INTO tb_exercicios (nome, imagem, serie, repeticao, tempoEstimado, categoriaId?) VALUES (?, ?, ?, ?, ?, ?)
 
         return await this.exercicioRepository.save(exercicio);
     }
@@ -103,12 +126,19 @@ export class ExercicioService {
 
         await this.findById(exercicio.id);
 
+        // Checa se foi passado id de Categoria e se a Categoria do Exercicio existe
+
+        if (exercicio.categoria?.id) {
+            await this.categoriaService.findById(exercicio.categoria.id);
+        }
+
         // UPDATE tb_exercicios
         // SET nome = ?
         // imagem = ?
         // serie = ?
         // repeticao = ?
-        // tempoEstimado = ?        
+        // tempoEstimado = ?
+        // categoriaId? = ?        
         // WHERE id = ?
         return await this.exercicioRepository.save(exercicio);
     }

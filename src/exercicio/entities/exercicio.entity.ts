@@ -1,6 +1,7 @@
 import { Transform, TransformFnParams } from "class-transformer";
 import { IsInt, IsNotEmpty, Length, Min } from "class-validator";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Categoria } from "../../categoria/entities/categoria.entity";
 
 @Entity({ name: "tb_exercicios" })
 export class Exercicio {
@@ -37,5 +38,10 @@ export class Exercicio {
     @Min(1,{ message: "A indicação do Tempo Estimado deve ser no mínimo 1 segundo" })    
     @Column({ type: 'int', nullable: false})
     tempoEstimado: number //em segundos
+
+    @ManyToOne(() => Categoria, (categoria) => categoria.exercicios, {
+        onDelete: "CASCADE"
+    })
+    categoria: Categoria; //Chave estrangeira
 
 }
