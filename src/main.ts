@@ -23,10 +23,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('/swagger', app, document);
 
-  // Redirecionar a raiz para o Swagger
-  app.getHttpAdapter().get('/', (req, res) => {
-    res.redirect('/swagger');
-  });
+  
 
   await app.listen(process.env.PORT ?? 4000);
 }
