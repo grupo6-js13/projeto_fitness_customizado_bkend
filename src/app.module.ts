@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CategoriaModule } from './categoria/categoria.module';
 import { ExercicioModule } from './exercicio/exercicio.module';
 
 @Module({
@@ -15,6 +16,7 @@ import { ExercicioModule } from './exercicio/exercicio.module';
       synchronize: true,
       dropSchema: false, // Cuidado: isso irá apagar o banco de dados a cada reinício da aplicação. Use apenas em desenvolvimento.
     }),
+    CategoriaModule,
     ExercicioModule,
   ],
   controllers: [],
