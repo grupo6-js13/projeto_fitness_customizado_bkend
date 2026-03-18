@@ -26,8 +26,8 @@ export class Categoria {
   @IsOptional()
   @Transform(({ value }: TransformFnParams) => (value as string | null)?.trim())
   @Length(3, 1000, {
-    message: 'O Link da Foto do Produto deve ter entre 3 a 1000 caracteres',
+    message: 'O Link do Icone da Categoria deve ter entre 3 a 1000 caracteres',
   })
   @Column({ length: 1000, nullable: true })
-  foto: string;
+  icone: string;
 }
