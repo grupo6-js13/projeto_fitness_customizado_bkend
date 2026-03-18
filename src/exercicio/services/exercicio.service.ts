@@ -105,13 +105,15 @@ export class ExercicioService {
 
     async create(exercicio: Exercicio): Promise<Exercicio> {
 
-        // Checa se foi passado id de Categoria e se a Categoria do Exercicio existe
+        // Checa se o id de Categoria foi informado e se a Categoria existe
 
-        if (exercicio.categoria?.id) {
-            await this.categoriaService.findById(exercicio.categoria.id);
+        if (!exercicio.categoria?.id) {
+            throw new HttpException("A Categoria do Exercício é Obrigatória", HttpStatus.BAD_REQUEST);            
         }
 
-        // INSERT INTO tb_exercicios (nome, imagem, serie, repeticao, tempoEstimado, categoriaId?) VALUES (?, ?, ?, ?, ?, ?)
+        await this.categoriaService.findById(exercicio.categoria.id);
+
+        // INSERT INTO tb_exercicios (nome, imagem, serie, repeticao, tempoEstimado, categoriaId) VALUES (?, ?, ?, ?, ?, ?)
 
         return await this.exercicioRepository.save(exercicio);
     }
@@ -126,11 +128,13 @@ export class ExercicioService {
 
         await this.findById(exercicio.id);
 
-        // Checa se foi passado id de Categoria e se a Categoria do Exercicio existe
+        // Checa se o id de Categoria foi informado e se a Categoria existe
 
-        if (exercicio.categoria?.id) {
-            await this.categoriaService.findById(exercicio.categoria.id);
+        if (!exercicio.categoria?.id) {
+            throw new HttpException("A Categoria do Exercício é Obrigatória", HttpStatus.BAD_REQUEST);            
         }
+
+        await this.categoriaService.findById(exercicio.categoria.id);
 
         // UPDATE tb_exercicios
         // SET nome = ?
@@ -138,7 +142,7 @@ export class ExercicioService {
         // serie = ?
         // repeticao = ?
         // tempoEstimado = ?
-        // categoriaId? = ?        
+        // categoriaId = ?        
         // WHERE id = ?
         return await this.exercicioRepository.save(exercicio);
     }
