@@ -18,6 +18,7 @@ export class DevService implements TypeOrmOptionsFactory {
             database: 'db_fitness',
             entities: [Exercicio, Categoria, Usuario],
             synchronize: true,
+            dropSchema: false,
     };
   }
 }

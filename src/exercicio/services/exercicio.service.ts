@@ -111,6 +111,17 @@ export class ExercicioService {
             throw new HttpException("A Categoria do Exercício é Obrigatória", HttpStatus.BAD_REQUEST);            
         }
 
+        //já existe um exercício com o mesmo nome
+        const exercicioExistente = await this.exercicioRepository.findOne({
+            where: {
+                nome: exercicio.nome
+            }
+        });
+
+        if (exercicioExistente) {
+            throw new HttpException("Já existe um exercício com esse nome", HttpStatus.BAD_REQUEST);
+        }
+
         await this.categoriaService.findById(exercicio.categoria.id);
 
         // INSERT INTO tb_exercicios (nome, imagem, serie, repeticao, tempoEstimado, categoriaId) VALUES (?, ?, ?, ?, ?, ?)
