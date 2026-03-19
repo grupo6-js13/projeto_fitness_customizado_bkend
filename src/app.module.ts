@@ -13,7 +13,7 @@ import { DevService } from './data/services/dev.service';
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRootAsync({
-      useClass: DevService, // Use DevService para desenvolvimento local
+      useClass: ProdService, // Use DevService para desenvolvimento local
       imports: [ConfigModule],
    }),
    
