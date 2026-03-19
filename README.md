@@ -1,3 +1,5 @@
+# Solara - API de Treinos Personalizados
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
@@ -5,94 +7,352 @@
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+<div align="center">
+      <img src="https://img.shields.io/github/languages/top/grupo6-js13/projeto_fitness_customizado_bkend?style=flat-square" />
+  <img src="https://img.shields.io/github/repo-size/grupo6-js13/projeto_fitness_customizado_bkend?style=flat-square" />
+  <img src="https://img.shields.io/github/languages/count/grupo6-js13/projeto_fitness_customizado_bkend?style=flat-square" />
+  <img src="https://img.shields.io/github/last-commit/grupo6-js13/projeto_fitness_customizado_bkend?style=flat-square" />
+  <img src="https://img.shields.io/github/issues/grupo6-js13/projeto_fitness_customizado_bkend?style=flat-square" />
+  <img src="https://img.shields.io/github/issues-pr/grupo6-js13/projeto_fitness_customizado_bkend?style=flat-square" />
+  <img src="https://img.shields.io/badge/status-construção-yellow" alt="Status: Em Construção">
+</div>
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Project setup
+## 1. Descrição
+
+A Solara é uma plataforma de treinos personalizados desenvolvida pela Orbyte, inspirada na energia e constância das estrelas. O sistema cria rotinas de exercícios adaptadas ao perfil, objetivos e nível de cada usuário, guiando sua evolução física com precisão, consistência e foco. Assim como o Sol é o centro de um sistema, a Solara coloca o usuário no centro da sua própria jornada de saúde.
+
+## 2. Sobre esta API
+
+Esta API REST foi desenvolvida utilizando o framework NestJS com TypeScript, com integração a um banco de dados relacional hospedado na nuvem via Neon.
+
+Ela é responsável por gerenciar os dados da aplicação de treinos personalizados Solara, permitindo o cadastro de usuários e a criação, consulta, atualização e remoção de treinos, exercícios e demais informações por meio de endpoints HTTP.
+
+A API segue a arquitetura modular proposta pelo NestJS, organizando o código em controllers, services e módulos, garantindo maior organização, escalabilidade e facilidade de manutenção.
+
+Para documentação e testes interativos dos endpoints, foi utilizada a ferramenta Swagger, permitindo uma visualização clara e acessível dos recursos disponíveis na API.
+
+A aplicação foi implantada na plataforma de deploy Render, utilizando um banco de dados em nuvem fornecido pelo Neon, garantindo disponibilidade, escalabilidade e facilidade de acesso ao ambiente em produção.
+
+### 2.1. Principais Funcionalidades
+
+<b>1. Gerenciamento de Exercícios</b>
+Permite criar, consultar, atualizar e remover exercícios físicos, possibilitando a organização e personalização dos treinos de acordo com diferentes objetivos e níveis de dificuldade.
+
+<b>2. Gerenciamento de Usuários e Cálculo de IMC</b>
+Possibilita o cadastro e a visualização de usuários, além do cálculo automático do Índice de Massa Corporal (IMC), fornecendo uma base para recomendações e acompanhamento da evolução física.
+
+<b>3. Gerenciamento de Categorias</b>
+Permite criar e administrar categorias de exercícios (como força, resistência, cardio, entre outros), facilitando a organização e a associação dos exercícios dentro da plataforma.
+
+------
+
+## 3. Diagrama de Classes
+
+O diagrama abaixo representa a estrutura lógica das entidades da aplicação e seus relacionamentos dentro da API.
+
+```mermaid
+classDiagram
+
+class Categoria {
+id : number
+nome : string
+descricao : string
+icone : string
+exercicios : Exercicio[]
++findAll()
++findById(id)
++findAllByNome(nome)
++create(categoria)
++update(categoria)
++delete(id)
+}
+
+class Exercicio {
+id : number
+nome : string
+imagem : string
+serie : number
+repeticao : number
+tempoEstimado : number
+categoria : Categoria
++findAll()
++findById(id)
++findAllByNome(nome)
++findByRepeticaoMin(repeticao)
++findByRepeticaoMax(repeticao)
++create(exercicio)
++update(exercicio)
++delete(id)
+}
+
+class Usuario {
+id : number
+nome : string
+usuario : string
+senha : string
+foto : string
+dataNascimento : Date
+peso : number
+altura : number
+imc : number
++findAll()
++findById(id)
++findByUsuario(usuario)
++findByIMCMaiorQue(imc)
++findByIMCMenorQue(imc)
++create(usuario)
++update(usuario)
++calcularIMC(peso, altura)
+}
+
+class UsuarioLogin{
+id : number
+nome : string
+usuario : string
+senha : string
+foto: string
+- token : string
++login(usuario, senha)
+}
+
+Exercicio --> Categoria : categorizado por
+```
+----
+
+
+
+## 4. Diagrama Entidade-Relacionamento (DER)
+
+O DER representa como os dados estão organizados no banco relacional e como as entidades se relacionam.
+
+```mermaid
+erDiagram
+
+CATEGORIA ||--o{ EXERCICIO : possui
+
+TB_CATEGORIAS {
+int id PK
+varchar(100) nome
+varchar(255) descricao
+varchar(1000) icone
+}
+
+TB_EXERCICIOS {
+int id PK
+varchar(255) nome
+varchar(500) imagem
+int serie
+int repeticao
+int tempoEstimado
+int categoria_id FK
+}
+
+TB_USUARIOS {
+int id PK
+varchar(255) nome
+varchar(255) usuario
+varchar(255) senha
+varchar(5000) foto
+date dataNascimento
+decimal peso
+decimal altura
+decimal imc
+}
+```
+----
+
+## 5. Tecnologias utilizadas
+
+| Item                         | Descrição                         |
+| ---------------------------- | --------------------------------- |
+| **Servidor**                 | Node JS                           |
+| **Linguagem de programação** | TypeScript                        |
+| **Framework**                | Nest JS                           |
+| **Arquitetura**              | Modular + REST                    |
+| **ORM**                      | TypeORM                           |
+| **Banco de dados**           | MySQL                             |
+| **Autenticação**             | Passport                          |
+| **Validação**                | class-validator + class-transform |
+| **Testes**                   | Insomnia                          |
+
+------
+
+
+
+## 6. Arquitetura do Projeto
+
+O projeto foi desenvolvido utilizando a arquitetura modular proposta pelo **NestJS**, promovendo organização, escalabilidade e facilidade de manutenção do código.
+
+Cada domínio da aplicação é isolado em um módulo próprio, contendo suas responsabilidades bem definidas:
+
+* **Controller** → recebe e trata requisições HTTP
+* **Service** → contém as regras de negócio
+* **Entity** → representa as tabelas do banco de dados
+* **Repository/ORM** → comunicação com o banco (via TypeORM)
+
+Essa separação facilita testes, evolução do sistema e reutilização de código.
+
+
+
+## 7. Estrutura de Pastas
+
+A organização segue o padrão recomendado pelo NestJS:
 
 ```bash
-$ npm install
+📦src
+ ┣ 📂auth
+ ┣ 📂usuario
+ ┣ 📂veiculo
+ ┣ 📂viagem
+ ┣ 📜app.controller.ts
+ ┣ 📜app.module.ts
+ ┣ 📜app.service.ts
+ ┗ 📜main.ts
 ```
 
-## Compile and run the project
+### Organização por módulo
+
+Exemplo:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+📦usuario
+ ┣ 📂controllers
+ ┃ ┗ 📜usuario.controller.ts
+ ┣ 📂entities
+ ┃ ┗ 📜usuario.entity.ts
+ ┣ 📂services
+ ┃ ┗ 📜usuario.service.ts
+ ┗ 📜usuario.module.ts
 ```
 
-## Run tests
+Esse padrão permite crescimento do sistema sem acoplamento excessivo entre funcionalidades.
 
-```bash
-# unit tests
-$ npm run test
+## 8. Fluxo de Autenticação (JWT)
 
-# e2e tests
-$ npm run test:e2e
+A autenticação da API utiliza **JSON Web Token (JWT)** para proteger rotas sensíveis.
 
-# test coverage
-$ npm run test:cov
+### Fluxo geral:
+
+1. O usuário realiza login informando credenciais
+2. A API valida os dados
+3. Um token JWT é gerado
+4. O cliente envia o token no header das próximas requisições:
+
+```http
+Authorization: Bearer TOKEN
 ```
 
-## Deployment
+5. Os Guards do NestJS validam o token antes de permitir acesso às rotas protegidas.
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+Esse modelo é amplamente utilizado em aplicações modernas por ser:
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+* Stateless
+* Escalável
+* Compatível com APIs REST
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+---
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## 9. Validação de Dados
 
-## Resources
+A aplicação utiliza:
 
-Check out a few resources that may come in handy when working with NestJS:
+* `class-validator`
+* `class-transformer`
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+para garantir integridade dos dados recebidos pela API.
 
-## Support
+Exemplo conceitual:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+* Campos obrigatórios são verificados automaticamente
+* Tipos inválidos são rejeitados antes da regra de negócio
+* Respostas de erro seguem padrão HTTP
 
-## Stay in touch
+Isso reduz erros e aumenta a confiabilidade da API.
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
 
-## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+---
+
+## 10. Boas Práticas Aplicadas
+
+Durante o desenvolvimento foram aplicados conceitos utilizados em projetos reais:
+
+* Organização modular do NestJS
+
+* Separação entre controller e regras de negócio
+
+* Tipagem forte com TypeScript
+
+* Padronização REST
+
+* Autenticação baseada em token
+
+* Estrutura preparada para escalabilidade
+
+  
+
+---
+
+## 11. Diferenciais Técnicos
+
+Este projeto demonstra competências importantes para desenvolvimento backend moderno:
+
+✅ Construção de API REST com NestJS
+✅ Arquitetura modular escalável
+✅ Autenticação JWT
+✅ Modelagem relacional (Usuário → Viagem ← Veículo)
+✅ Integração com banco de dados MySQL via TypeORM
+✅ Validação automática de dados com class-validator
+✅ Criptografia de senha utilizando Bcrypt
+✅ Implementação de regras de negócio no backend (cálculo automático de preço e tempo estimado da viagem)
+✅ Uso profissional de TypeScript no backend
+
+
+
+---
+
+## 12. Requisitos
+
+Para executar o projeto localmente:
+
+- Node.js 18+
+
+- npm
+
+- MySQL
+
+- Insomnia
+
+  
+
+------
+
+## 13. Configuração e Execução
+
+1. Clone o repositório: https://github.com/grupo6-js13/projeto_fitness_customizado_bkend
+
+2. Instale as dependências: `npm install`
+
+
+3. Configure o banco de dados no arquivo `app.module.ts` (ou via variáveis de ambiente, se aplicável)
+
+4. Execute a aplicação: `npm run start:dev`
+
+---
+
+### 🔗 Acesso à API
+
+- Produção: https://projeto-fitness-customizado-bkend-mv9i.onrender.com  
+  
+---------
+## 14. Autores
+
+**Orbyte - Onde as ideias orbitam em torno de conhecimento e tecnologia**
+
+🔗 **GitHub:** https://github.com/grupo6-js13/
+
+🔗 **E-mail:** grupo6js13@gmail.com 
+
+Projeto desenvolvido para **aprendizado contínuo**, **demonstração técnica** e **portfólio profissional**.
